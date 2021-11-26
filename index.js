@@ -15,7 +15,30 @@ const db = mysql.createConnection(
 
 // const openingPrompt
 
-// const addDepartment
+const addDepartment = () => {
+    return inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "department",
+                message: "Which department?"
+            }
+        ])
+        .then(({ department }) => {
+            db.query('INSERT INTO department (department_name) VALUES ?', department, (err, result));
+            if (err) {
+                console.log(err);
+                return console.log(result);
+            }
+        })
+}
+// we want to return the inquirer fxn
+// then prompt with the inquirer info
+// then get the data from department
+// put it into the dept (dept_name) query
+// if error
+// return console.log 
+// opening prompt
 
 function addRole() {
     db.promise().query('SELECT * FROM department')
