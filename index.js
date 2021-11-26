@@ -13,7 +13,23 @@ const db = mysql.createConnection(
     }
 );
 
-// const openingPrompt
+const init = () = {
+    return inquirer
+        .prompt([
+            {
+                type: "list",
+                name: "choice",
+                message: "What would you like to do?",
+                choices: ["]View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department"]
+            }
+        ])
+        .then(({ choice }) = {
+            // if choice = view all deptChoices
+            // db query Select from dept
+            // console.table
+            init();
+        })
+};
 
 const addDepartment = () => {
     return inquirer
