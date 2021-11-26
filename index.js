@@ -13,12 +13,12 @@ const db = mysql.createConnection(
     }
 );
 
-const openingPrompt
+// const openingPrompt
 
-const addDepartment
+// const addDepartment
 
-addRole()
-// db promise query (select all from dept)
+// addRole()
+// // db promise query (select all from dept)
 
 const addEmployee = () => {
     db.promise().query('SELECT * FROM roles')
@@ -51,10 +51,37 @@ const addEmployee = () => {
                     choices: roleChoices
                 },
             ])
-                .then((data)) => {
-    let firstName = data.first;
-    let lastName = data.last;
-    let employeeRole = data.role;
+                .then((data) => {
+                    let firstName = data.first;
+                    let lastName = data.last;
+                    let employeeRole = data.role;
 
-    db.promise().query('SELECT * FROM employee')
+                    db.promise().query('SELECT * FROM employee')
+                        .then(([rows]) => {
+                            let employees = roles;
+                            const employeePool = employees.map(({ first_name, last_name, id }) => ({
+                                name: first_name + ' ' + last_name,
+                                value: id
+                            }));
+                            inquirer.prompt([
+                                {
+                                    type: "list",
+                                    name: "manager",
+                                    message: "Who is their manager?",
+                                    choices: employeePool
+                                }
+                            ])
+                                .then((data) => {
+                                    let manager = data.manager;
+                                    db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [firstName, lastName, employeeRole, manager], (err, result) => {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                        console.log(result);
+                                    })
+                                    // return openingPrompt();
+                                })
+                        })
+                })
+        })
 }
