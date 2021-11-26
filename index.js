@@ -17,8 +17,33 @@ const db = mysql.createConnection(
 
 // const addDepartment
 
-// addRole()
-// // db promise query (select all from dept)
+addRole()
+db.promise().query('SELECT * FROM department')
+    .then(([rows]) => {
+        let departments = rows;
+        const deptChoices = departments.map(({ id, department_name }) => ({
+            name: department_name,
+            value: id
+        }));
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "title",
+                message: "What is the role title?"
+            },
+            {
+                type: "input",
+                name: "salary",
+                message: "What is annual salary for this role?"
+            },
+            {
+                type: "input",
+                name: "department",
+                message: "To which department does the role belong?",
+                choices: deptChoices
+            },
+        ])
+    };
 
 const addEmployee = () => {
     db.promise().query('SELECT * FROM roles')
@@ -31,22 +56,17 @@ const addEmployee = () => {
             inquirer.prompt([
                 {
                     type: "input",
-                    name: "managerName",
+                    name: "first",
                     message: "What is the employee's first name?"
                 },
                 {
                     type: "input",
-                    name: "managerID",
+                    name: "last",
                     message: "What is the employee's last name?"
                 },
                 {
                     type: "input",
-                    name: "managerEmail",
-                    message: "What is the manager's email?"
-                },
-                {
-                    type: "input",
-                    name: "officeNumber",
+                    name: "role",
                     message: "What is employee's role?",
                     choices: roleChoices
                 },
