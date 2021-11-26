@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const consoleTable = require('console.table');
 const inquirer = require('inquirer');
+const { SELECT } = require('sequelize/types/lib/query-types');
 
 require('dotenv').config();
 
@@ -13,7 +14,7 @@ const db = mysql.createConnection(
     }
 );
 
-const init = () = {
+const init = () => {
     return inquirer
         .prompt([
             {
@@ -23,12 +24,27 @@ const init = () = {
                 choices: ["]View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department"]
             }
         ])
-        .then(({ choice }) = {
-            // if choice = view all deptChoices
-            // db query Select from dept
-            // console.table
-            init();
-        })
+        .then(({ choice }) => {
+            if (choice === "View All Departments") {
+                // db query Select from dept, fxn, err results
+                db.query('SELECT * FROM department;', function (err, results) {
+                    console.table(results);
+                    init();
+                });
+
+
+                // else if (view all roles)
+                // db query select roles.id 
+                // else if (view all employees)
+
+                // else if (add a role)
+
+                // else if (add a dept)
+
+                // else if (add an emp)
+
+                // else if (update employee role)
+            })
 };
 
 const addDepartment = () => {
