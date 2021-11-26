@@ -1,7 +1,6 @@
 const mysql = require('mysql2');
 const consoleTable = require('console.table');
 const inquirer = require('inquirer');
-const { SELECT } = require('sequelize/types/lib/query-types');
 
 require('dotenv').config();
 
@@ -21,7 +20,7 @@ const init = () => {
                 type: "list",
                 name: "choice",
                 message: "What would you like to do?",
-                choices: ["]View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department"]
+                choices: ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department"]
             }
         ])
         .then(({ choice }) => {
@@ -31,23 +30,23 @@ const init = () => {
                     console.table(results);
                     init();
                 });
+            } else if (choice === "Add Role") {
+                addRole();
+            } else if (choice === "Add Department") {
+                addDept();
+            } else if (choice === "Add Employee") {
+                addEmployee();
+            }
 
 
-                // else if (view all roles)
-                // db query select roles.id 
-                // else if (view all employees)
+            // else if ("view all roles")
+            // db query select roles.id 
+            // else if (view all employees)
 
-                // else if (add a role)
-
-                // else if (add a dept)
-
-                // else if (add an emp)
-
-                // else if (update employee role)
-            })
+        })
 };
 
-const addDepartment = () => {
+const addDept = () => {
     return inquirer
         .prompt([
             {
@@ -154,11 +153,13 @@ const addEmployee = () => {
                                         }
                                         console.log(result);
                                     })
-                                    // return openingPrompt();
+                                    return init();
                                 })
                         })
                 })
         })
 }
 
-addRole();
+
+
+init();

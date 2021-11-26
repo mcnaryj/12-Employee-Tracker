@@ -22,6 +22,6 @@
     "inquirer": "^8.2.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.11.0"
   }
 }
