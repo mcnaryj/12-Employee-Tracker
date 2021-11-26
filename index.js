@@ -17,34 +17,34 @@ const db = mysql.createConnection(
 
 // const addDepartment
 
-addRole()
-db.promise().query('SELECT * FROM department')
-    .then(([rows]) => {
-        let departments = rows;
-        const deptChoices = departments.map(({ id, department_name }) => ({
-            name: department_name,
-            value: id
-        }));
-        inquirer.prompt([
-            {
-                type: "input",
-                name: "title",
-                message: "What is the role title?"
-            },
-            {
-                type: "input",
-                name: "salary",
-                message: "What is annual salary for this role?"
-            },
-            {
-                type: "input",
-                name: "department",
-                message: "To which department does the role belong?",
-                choices: deptChoices
-            },
-        ])
-    };
-
+function addRole() {
+    db.promise().query('SELECT * FROM department')
+        .then(([rows]) => {
+            let departments = rows;
+            const deptChoices = departments.map(({ id, department_name }) => ({
+                name: department_name,
+                value: id
+            }));
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "title",
+                    message: "What is the role title?"
+                },
+                {
+                    type: "input",
+                    name: "salary",
+                    message: "What is annual salary for this role?"
+                },
+                {
+                    type: "input",
+                    name: "department",
+                    message: "To which department does the role belong?",
+                    choices: deptChoices
+                },
+            ])
+        })
+}
 const addEmployee = () => {
     db.promise().query('SELECT * FROM roles')
         .then(([rows]) => {
@@ -105,3 +105,5 @@ const addEmployee = () => {
                 })
         })
 }
+
+addRole();
