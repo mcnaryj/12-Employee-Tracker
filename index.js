@@ -121,7 +121,7 @@ const addEmployee = () => {
                 {
                     type: "input",
                     name: "role",
-                    message: "What is employee's role?",
+                    message: "What is employee's role id?",
                     choices: roleChoices
                 },
             ])
