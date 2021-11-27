@@ -49,12 +49,6 @@ const init = () => {
             } else if (choice === "Update Employee Role") {
                 updateRole();
             }
-
-
-            // else if ("view all roles")
-            // db query select roles.id 
-            // else if (view all employees)
-
         })
 };
 
