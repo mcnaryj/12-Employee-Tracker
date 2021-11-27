@@ -36,6 +36,8 @@ const init = () => {
                 addDept();
             } else if (choice === "Add Employee") {
                 addEmployee();
+            } else if (choice === "Update Employee Role") {
+                updateRole();
             }
 
 
@@ -52,16 +54,18 @@ const addDept = () => {
             {
                 type: "input",
                 name: "department",
-                message: "Which department?"
+                message: "What is the department name?"
             }
         ])
         .then(({ department }) => {
-            db.query('INSERT INTO department (department_name) VALUES ?', department, (err, result));
-            if (err) {
-                console.log(err);
-                return console.log(result);
-            }
-        })
+            db.query('INSERT INTO department (department_name) VALUES (?)', department, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(result);
+            })
+            return init();
+        });
 }
 // we want to return the inquirer fxn
 // then prompt with the inquirer info
@@ -97,8 +101,23 @@ function addRole() {
                     choices: deptChoices
                 },
             ])
+                .then(({ title, salary, department }) => {
+                    const newRole = {
+                        title,
+                        salary,
+                        department_id: department
+                    }
+                    db.query('INSERT INTO roles SET ?' newRole, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(result);
+                    })
+                    return init();
+                })
         })
 }
+
 const addEmployee = () => {
     db.promise().query('SELECT * FROM roles')
         .then(([rows]) => {
@@ -160,6 +179,51 @@ const addEmployee = () => {
         })
 }
 
-
-
+const updateRole = () => {
+    db.promise().query('SELECT * FROM employee')
+        .then(([rows]) => {
+            let employees = rows;
+            const empChoices = employees.map(({ first_name, last_name, id }) => ({
+                name: first_name + ' ' + last_name,
+                value: id
+            }));
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "update",
+                    message: "Which employee do you want to update?",
+                    choices: empChoices
+                }
+            ])
+                .then((data) => {
+                    let employee = data.update
+                    db.promise().query('SELECT * FROM roles')
+                        .then((data) => {
+                            let roles = data;
+                            const roleChoices = roles.map(({ title, id }) => ({
+                                name: title,
+                                value: id
+                            }));
+                            inquirer.prompt([
+                                {
+                                    type: "list",
+                                    name: "role",
+                                    message: "What's the employee's new role?",
+                                    choices: roleChoices
+                                }
+                            ])
+                                .then((data) => {
+                                    let newRole = data.role;
+                                    db.query('UPDATE employee SET role_id = ? WHERE id = ?', [newRole, employee], (err, result) => {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                        console.log(result);
+                                    })
+                                    return init();
+                                })
+                        })
+                })
+        })
+}
 init();
