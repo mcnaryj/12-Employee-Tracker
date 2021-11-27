@@ -30,6 +30,16 @@ const init = () => {
                     console.table(results);
                     init();
                 });
+            } else if (choice === "View All Employees") {
+                db.query('SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name AS department, roles.salary, LEFT JOIN roles on employee.role_id = roles.id LEFT JOIN department ON roles.department_id = department.id LEFT JOIN employee manager ON employee.manager_id = manager.id;', function (err, results) {
+                    console.table(results);
+                    init();
+                })
+            } else if (choice === "View All Roles") {
+                db.query('SELECT roles.id, roles.title, department.department_name AS department, roles.salary FROM roles LEFT JOIN department on roles.department_id = department.id;', function (err, results) {
+                    console.table(results);
+                    init();
+                });
             } else if (choice === "Add Role") {
                 addRole();
             } else if (choice === "Add Department") {
@@ -107,7 +117,7 @@ function addRole() {
                         salary,
                         department_id: department
                     }
-                    db.query('INSERT INTO roles SET ?' newRole, (err, result) => {
+                    db.query('INSERT INTO roles SET ?', newRole, (err, result) => {
                         if (err) {
                             console.log(err);
                         }
