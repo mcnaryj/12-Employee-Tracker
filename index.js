@@ -31,7 +31,7 @@ const init = () => {
                     init();
                 });
             } else if (choice === "View All Employees") {
-                db.query('SELECT employee.id, employee.first_name, employee.last_name, roles.title, department.department_name AS department, roles.salary, LEFT JOIN roles on employee.role_id = roles.id LEFT JOIN department ON roles.department_id = department.id LEFT JOIN employee manager ON employee.manager_id = manager.id;', function (err, results) {
+                db.query('SELECT * FROM employee', function (err, results) {
                     console.table(results);
                     init();
                 })
@@ -154,12 +154,15 @@ const addEmployee = () => {
                     let employeeRole = data.role;
 
                     db.promise().query('SELECT * FROM employee')
-                        .then(([rows]) => {
-                            let employees = roles;
+                        .then((row) => {
+                            // console.log(row[0]);
+                            let employees = row[0];
+                            // console.log(employees);
                             const employeePool = employees.map(({ first_name, last_name, id }) => ({
                                 name: first_name + ' ' + last_name,
                                 value: id
                             }));
+                            // console.log(employeePool);
                             inquirer.prompt([
                                 {
                                     type: "list",
@@ -187,6 +190,7 @@ const updateRole = () => {
     db.promise().query('SELECT * FROM employee')
         .then(([rows]) => {
             let employees = rows;
+            console.log(rows[0]);
             const empChoices = employees.map(({ first_name, last_name, id }) => ({
                 name: first_name + ' ' + last_name,
                 value: id
@@ -202,7 +206,7 @@ const updateRole = () => {
                 .then((data) => {
                     let employee = data.update
                     db.promise().query('SELECT * FROM roles')
-                        .then((data) => {
+                        .then(([data]) => {
                             let roles = data;
                             const roleChoices = roles.map(({ title, id }) => ({
                                 name: title,

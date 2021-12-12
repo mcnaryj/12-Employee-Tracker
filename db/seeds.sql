@@ -21,6 +21,4 @@ VALUES ("Cheesus", "Crust", 1, NULL),
 ("John", "Johnson", 3, 1),
 ("Son", "Sonson", 4, NULL),
 ("Bonny", "Prince-Billy", 5, 3),
-("Mar", "Dock", 6, NULL),
-("Jim", "Glim", 7, 4),
-("Glim", "Tim", 8, NULL);
+("Mar", "Dock", 6, NULL);
