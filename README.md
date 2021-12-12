@@ -55,14 +55,13 @@ This application is intended for users who want to have a place where they can k
 [MIT](https://opensource.org/licenses/MIT)<br>
 [GITHUB](https://docs.github.com/en)<br>
 [VSC](https://code.visualstudio.com/)<br>
+Clyde!
 
 ## Demonstration
 
 
-A demonstration of the app can be found at the following url:
-The following gif shows the functionality of the app:
-![Employee-Tracker-Demo](https://user-images.githubusercontent.com/88205127/143307762-8e2af1e6-5254-47ca-8efe-fd968a07fc0f.gif)
-The user is able to choose between which of the options they would like to view. The user will note that I was not able to quite figure out how to display all employees.
+A demonstration of the app can be found at the following url: https://www.youtube.com/watch?v=66R85GNfabY
+The user is able to choose between which of the options they would like to view and roles and all that good stuff.
 
 ## Notes
 
